@@ -41,10 +41,9 @@ namespace fxAtualizadorDanfeSAT
                     try
                     {
                         XDocument cupomFiscal = XDocument.Load(arquivoCupomFiscal);
-                        var numeroCFe = from cfe in cupomFiscal.Descendants("ide") select (string)cfe.Element("nCFe");
-                        var nCFe = numeroCFe.FirstOrDefault();
-                        var numeroSatCorreto = from cfe in cupomFiscal.Descendants("infCFe") select (string)cfe.Attribute("Id");
-                        var nSat = numeroSatCorreto.FirstOrDefault();
+                        var nCFe = (from cfe in cupomFiscal.Descendants("ide") select (string)cfe.Element("nCFe")).FirstOrDefault();                        
+                        nCFe = nCFe.Substring(1, nCFe.Length-1);
+                        var nSat = (from cfe in cupomFiscal.Descendants("infCFe") select (string)cfe.Attribute("Id")).FirstOrDefault();                        
                         resultadoTxt.Text += CriaComandoSQLParaAtualizarDados(nCFe, nSat);
                     }
                     catch {
